@@ -1,3 +1,18 @@
+ENGLISH_NUMERICS = list(str(x) for x in range(10))
+PERSIAN_NUMERICS = [
+    "۰",
+    "١",
+    "۲",
+    "۳",
+    "۴",
+    "۵",
+    "۶",
+    "۷",
+    "۸",
+    "۹"
+]
+
+
 def remove_tanvin(text: str) -> str:
     text = text.replace("\u064b", "")
     text = text.replace("\u064c", "")
@@ -42,6 +57,12 @@ def remove_half_space(text: str) -> str:
     return text
 
 
+def english_numerics_to_persian(text: str) -> str:
+    for en, per in zip(ENGLISH_NUMERICS, PERSIAN_NUMERICS):
+        text = text.replace(en, per)
+    return text
+
+
 def arabic_to_persian_marks(text: str) -> str:
     # ک عربی
     text = text.replace("\u0643", "\u06a9")
@@ -60,11 +81,13 @@ def arabic_to_persian_marks(text: str) -> str:
 
     return text
 
+
 def normalize(text):
     text = remove_tanvin(text)
     text = remove_erab(text)
     text = remove_punctuations(text)
     text = remove_half_space(text)
     text = arabic_to_persian_marks(text)
+    text = english_numerics_to_persian(text)
     text = text.strip()
     return text
