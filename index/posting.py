@@ -21,6 +21,7 @@ class PositionalPostingList:
     def __init__(self,
                  postings: list[PositionalPosting]):
         self.postings = postings
+        self._collection_frequency = None
 
     def insert(self, doc_id: int, position: int):
 
@@ -36,6 +37,17 @@ class PositionalPostingList:
 
     def document_frequency(self) -> int:
         return len(self.postings)
+    
+    def recalculate_collection_frequency(self):
+        self._collection_frequency = 0
+        for posting in self.postings:
+            self._collection_frequency += posting.occurrence
+
+    @property
+    def collection_frequency(self) -> int:
+        if self._collection_frequency is None:
+            self.recalculate_collection_frequency()
+        return self._collection_frequency
 
     def to_dict(self) -> dict:
         return {"postings": [p.to_dict() for p in self.postings]}
