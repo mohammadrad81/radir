@@ -86,7 +86,7 @@ def normalize(text):
     text = remove_tanvin(text)
     text = remove_erab(text)
     text = remove_punctuations(text)
-    text = remove_half_space(text)
+    # text = remove_half_space(text)
     text = arabic_to_persian_marks(text)
     text = english_numerics_to_persian(text)
     text = text.strip()
