@@ -23,6 +23,13 @@ if __name__ == "__main__":
         normalized_tokens = [normalize(token) for token in tokens]
         terms = [stem(token) for token in normalized_tokens]
         terms = [{"position": position, "token": token, "term": term, "is_stop_word": is_stop_word(token)} for position, (token, term) in enumerate(zip(tokens, terms))]
-        for couple in terms:
-            print(couple)
+        # for couple in terms:
+        #     print(couple)
+        index = PositionalIndex()
+        for d in terms:
+            if not d["is_stop_word"]:
+                index.insert(d["term"], 0, d["position"])
+
+        print("index constructed\n\n")
+        print(index.to_dict())
         
