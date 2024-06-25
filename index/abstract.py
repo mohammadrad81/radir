@@ -5,7 +5,7 @@ class AbstractIndex(ABC):
     def insert(self, term: str, doc_id: int, position: int) -> None:
         pass
 
-    def retrieve(self, terms: list[str]) -> list[int]:
+    def retrieve(self, prepared_query: list[dict]) -> list[int]:
         pass
 
     def vocabulary(self):

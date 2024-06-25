@@ -28,7 +28,7 @@ class PositionalPostingList:
 
         #if the doc is new for postings list
         else:
-            posting = PositionalPosting(doc_id, [position])
+            posting = PositionalPosting({position})
             self.postings[doc_id] = posting
 
     def document_frequency(self) -> int:
