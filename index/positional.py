@@ -7,6 +7,8 @@ class PositionalIndex(AbstractIndex):
                  postings_list: dict[str, PositionalPostingList] = None,
                  ):
         self.postings_list = postings_list
+        if self.postings_list is None:
+            self.postings_list = dict()
 
     def insert(self, term: str, doc_id: int, position: int) -> None:
         if term in self.postings_list.keys():
