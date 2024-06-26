@@ -43,7 +43,7 @@ class PositionalIndex(AbstractIndex):
         return sorted_results
 
     def retrieve_absolute_doc_ids(self, prepared_query: list[dict]) -> list[int]:
-        print("prepared query: ", prepared_query)
+        # print("prepared query: ", prepared_query)
         result = []
         query_terms_postings_list_doc_ids = [
             set(self.postings_list[d["term"]].postings.keys())
