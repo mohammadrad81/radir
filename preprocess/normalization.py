@@ -14,16 +14,18 @@ PERSIAN_NUMERICS = [
 
 
 def remove_tanvin(text: str) -> str:
-    text = text.replace("\u064b", "")
-    text = text.replace("\u064c", "")
-    text = text.replace("\u064d", "")
+    text = text.replace("\u064b", "") # fathe tanvin
+    text = text.replace("\u064c", "") # zamme tanvin
+    text = text.replace("\u064d", "") # kasre tanvin
     return text
 
 
 def remove_erab(text: str) -> str:
-    text = text.replace("\u064f", "")
-    text = text.replace("\u064e", "")
-    text = text.replace("\u0650", "")
+    text = text.replace("\u064f", "") # zamme
+    text = text.replace("\u064e", "") # fathe
+    text = text.replace("\u0650", "") # kasre
+    text = text.replace("\u0652", "") # sukun
+    text = text.replace("\u0670", "") # small superscript alef
     return text
 
 
@@ -112,26 +114,86 @@ def remove_multiple_space(text: str) -> str:
     text = ' '.join(text.split())
     return text
 
-def appropriate_mi_nemi(text: str) -> str:
-    text = text.replace(
-    " می ",
-    " " + "می" + "\u200c"
-    )
-    text = text.replace(
-        " نمی ",
-        " " + "نمی" + "\u200c"
-    )
+def space_between_alphabets_and_numbers(text: str) -> str:
+    result: str = ''
+    for i in range(len(text)):
+        if text[i].isdigit() and result and result[-1].isalpha():
+            result += ' '
+        elif text[i].isalpha() and result and result[-1].isdigit():
+            result += ' '
+        result += text[i]
+    return text
+
+def correct_spacing(text: str) -> str:
+    for prefix in [
+        "می",
+        "نمی",
+
+    ]:
+        text = text.replace(
+            " " + prefix + " "
+            " " + prefix + "\u200c"
+        )
+
+
+    for postfix in [
+        "گری",
+        "گر",
+        "ام",
+        "ات",
+        "اش",
+        "تر",
+        "تری",
+        "ترین",
+        "ها",
+        "های",
+        "هایی",
+        "ای",
+    ]:
+        text = text.replace(
+            " " + postfix + " ",
+            "\u200c" + "تر" + " " 
+        )
+    return text
+
+def two_writing_forms(text: str) -> str:
+    two_forms = [ #first is not good, second is good
+        ("آزوقه", "آذوقه"),
+        ("اطاق", "اتاق"),
+        ("اطو", "اطو"),
+        ("اصطبل", "اسطبل"),
+        ("امپراطور", "امپراتور"),
+        ("اطراق", "اتراق"),
+        ("باطری", "باتری"),
+        ("بلغور", "بلقور"),
+        ("تاق", "طاق"),
+        ("طپانچه", "تپانچه"),
+        ("ذغال", "زغال"),
+        ("سوقات", "سوغات"),
+        ("غلیان", "قلیان"),
+        ("قوتی", "قوطی"),
+        ("ملات", "ملاط"),
+        ("نفط", "نفت"),
+        ("یاطاقان", "یاتاقان"),
+        ("طهران", "تهران"),
+        ("طیسفون", "تیسفون"),
+        ("لوط", "لوت"),
+    ]
+    for wrong, right in two_forms:
+        text = text.replace(wrong, right)
     return text
 
 
 def normalize(text):
     text = remove_multiple_space(text)
-    text = appropriate_mi_nemi(text)
+    text = space_between_alphabets_and_numbers(text)
+    text = correct_spacing(text)
     text = remove_tanvin(text)
     text = remove_erab(text)
     text = remove_punctuations(text)
     # text = remove_half_space(text)
     text = arabic_to_persian_marks(text)
     text = english_numerics_to_persian(text)
+    text = two_writing_forms(text)
     text = text.strip()
     return text
