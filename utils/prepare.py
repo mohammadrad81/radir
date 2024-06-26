@@ -13,21 +13,13 @@ def read_data(file_path: str):
 
 def prepare_string(content: str)->list[dict]:
     # print(f"content: \n{content}")
-    content = content.replace("\n", " ")
-    content = ' '.join(content.split())
-    content = content.replace(
-        " می ",
-        " " + "می" + "\u200c"
-    )
-    content = content.replace(
-        " نمی ",
-        " " + "نمی" + "\u200c"
-    )
-        
+    content = normalize(content)
     tokens = content.split(" ")
     normalized_tokens = [normalize(token) for token in tokens]
     terms = [stem(token) for token in normalized_tokens]
-    token_term_position_dicts = [{"position": position, "token": token, "term": term} for position, (token, term) in enumerate(zip(tokens, terms)) if not is_stop_word(token)]
+    token_term_position_dicts = [{"position": position, "token": token, "term": term}
+                                 for position, (token, term) in enumerate(zip(tokens, terms)) 
+                                 if term != "" and not is_stop_word(token)]
     return token_term_position_dicts
 
 
