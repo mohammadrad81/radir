@@ -5,7 +5,7 @@ from preprocess.stemming import stem
 from preprocess.normalization import normalize
 from preprocess.stop_words import remove_stop_words, is_stop_word
 from index.positional import PositionalIndex
-
+import datetime
 def read_data(file_path: str):
     with open(file_path, "r") as file:
         data = json.load(file)
@@ -48,12 +48,22 @@ def load_index(index_file_path: str) -> PositionalIndex:
 
 def create_index(source_file_path: str, dest_file_path: str) -> tuple[PositionalIndex, dict]:
     data = read_data(source_file_path)
+    start = datetime.datetime.now()
     index = create_index_from_data(data)
+    end = datetime.datetime.now()
+    print("index creation time: ", end - start)
     store_index(index, dest_file_path)
     return index, data
 
 def show_results(doc_scores: list[tuple[int, float]], data: dict):
+    # print("keys: ", data["0"].keys())
     for doc_id, score in doc_scores:
+        str_doc_id = str(doc_id)
         print("doc_id: ", doc_id)
+        print("title: ", data[str_doc_id]["title"])
+        print("url: ", data[str_doc_id]["url"])
         print("score: ", score)
+        print("content: \n", data[str_doc_id]["content"])
+        print("-" * 30)
+        
         # print("content: ", data[str(doc_id)]["content"])
