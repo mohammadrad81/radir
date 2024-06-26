@@ -37,7 +37,23 @@ class PositionalIndex(AbstractIndex):
         self.vector_length = vector_length
         return vector_length
     
+    def delete_most_frequent_terms(self, k: int) -> list[dict]:
+        sorted_terms_by_document_frequency = sorted(self.postings_list.keys(), reverse=True, key=lambda x: self.postings_list[x].document_frequency())
+        to_delete = sorted_terms_by_document_frequency[:min(k, len(sorted_terms_by_document_frequency))]
+        to_delete_with_document_frequency = [
+            {
+                "term": t,
+                "document_frequency": self.postings_list[t].document_frequency(),
+                "collection_frequency": self.postings_list[t].collection_frequency
+            }
+            for t in to_delete
+        ]
+        for term in to_delete:
+            del self.postings_list[term]
+        return to_delete_with_document_frequency
+
     def retrieve(self, prepared_query: list[dict]) -> list[tuple[int, float]]:
+        prepared_query = [d for d in prepared_query if d["term"] in self.postings_list.keys()]
         doc_ids = self.retrieve_absolute_doc_ids(prepared_query)
         sorted_results = self.sorted_results(doc_ids, prepared_query)
         return sorted_results

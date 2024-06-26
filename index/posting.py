@@ -36,8 +36,8 @@ class PositionalPostingList:
     
     def recalculate_collection_frequency(self):
         self._collection_frequency = 0
-        for posting in self.postings:
-            self._collection_frequency += posting.occurrence
+        for doc_id in self.postings.keys():
+            self._collection_frequency += self.postings[doc_id].occurrence
 
     @property
     def collection_frequency(self) -> int:

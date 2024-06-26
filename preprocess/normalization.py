@@ -131,7 +131,7 @@ def correct_spacing(text: str) -> str:
 
     ]:
         text = text.replace(
-            " " + prefix + " "
+            " " + prefix + " ",
             " " + prefix + "\u200c"
         )
 
