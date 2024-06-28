@@ -11,7 +11,47 @@ PERSIAN_NUMERICS = [
     "۸",
     "۹"
 ]
+PERSIAN_ABBREVIATIONS = [
+    ("ره", "راه"),
+    ("کوته", "کوتاه"),
+    ("دگر", "دیگر"),
+    ("چو", "چون"),
+    ("ار", "اگر"),
+    ("روبه", "روباه"),
+    ("کنون", "اکنون"),
+    ("گنه", "گناه"),
+    ("دهن", "دهان"),
+    ("پیرهن", "پیراهن"),
+    ("برون", "بیرون"),
+    ("ناجا", "نیروی انتظامی جمهوری اسلامی ایران"),
+    ("نزاجا", "نیروی زمینی ارتش جمهوری اسلامی ایران"),
+    ("ساواک", "سازمان اطلاعات و امنیت کشور"),
+    ("سمپاد", "سازمان ملی پرورش استعداد های درخشان"),
+    ("ق.ظ", "قبل ظهر"),
+    ("ب.ظ", "بعد ظهر"),
+    ("", ""),
+    ("", ""),
+    ("ج.ا.ا", "جمهوری اسلامی ایران"),
+]
 
+ENGLISH_ABBREVIATIONS = [
+    ("A.S.A.P", "as soon as possible"),
+    ("U.S.A", "united states of america"),
+    ("USA", "united states of america"),
+    ("IR", "islamic republic"),
+    ("IRI", "islamic republic of iran"),
+    ("IRIB", "islamic republic of iran broadcasting"),
+
+]
+
+def process_abbreviations(text: str):
+    for short_form_list in [ENGLISH_ABBREVIATIONS, PERSIAN_ABBREVIATIONS]:
+        for short_form, long_form in short_form_list:
+            text.replace(
+                " " + short_form + " ",
+                " " + long_form + " "
+            )
+    return text
 
 def remove_tanvin(text: str) -> str:
     text = text.replace("\u064b", "") # fathe tanvin
@@ -28,6 +68,21 @@ def remove_erab(text: str) -> str:
     text = text.replace("\u0670", "") # small superscript alef
     return text
 
+def remove_endline_tab(text: str) -> str:
+    text = text.replace("\n", " ")
+    text = text.replace("\t", " ")
+    return text
+
+def remove_meaningless_unicode_characters(text: str) -> str:
+    text = text.replace("\u061F", " ") # arabic question mark
+    text = text.replace("\u200F", " ") # left to right
+    text = text.replace("\u200E", " ") # right to left
+    text = text.replace("\u202B", " ") #right to left embedding
+    text = text.replace("\u2069", " ") #Pop Directional Isolate character
+    text = text.replace("\u202C", " ") #Pop Directional Formatting character
+    text = text.replace("\u2067", " ") #right to left isolate
+    text = text.replace("\u202A", " ") #left to right embedding
+    return text
 
 def remove_punctuations(text: str) -> str:
     text = text.replace("#", " ")
@@ -54,19 +109,11 @@ def remove_punctuations(text: str) -> str:
     text = text.replace("_", " ")
     text = text.replace("`", " ")
     text = text.replace("~", " ")
-    text = text.replace("\u061F", " ") # arabic question mark
-    text = text.replace("\u200F", " ") # left to right
-    text = text.replace("\u200E", " ") # right to left
-    text = text.replace("\u202B", " ") #right to left embedding
-    text = text.replace("\u2069", " ") #Pop Directional Isolate character
-    text = text.replace("\u202C", " ") #Pop Directional Formatting character
-    text = text.replace("\u2067", " ") #right to left isolate
-    text = text.replace("\u202A", " ") #left to right embedding
     text = text.replace("،", " ")
+    text = text.replace(",", " ")
+    text = text.replace(","," ")
     text = text.replace(":", " ")
     text = text.replace(";", " ")
-    text = text.replace("\n", " ")
-    text = text.replace("\t", " ")
     text = text.replace(".", " ")
     text = text.replace("/", " ")
     text = text.replace("\\", " ")
@@ -92,7 +139,7 @@ def english_numerics_to_persian(text: str) -> str:
     return text
 
 
-def arabic_to_persian_marks(text: str) -> str:
+def arabic_to_persian_letters(text: str) -> str:
     # ک عربی
     text = text.replace("\u0643", "\u06a9")
     # ی عربی
@@ -185,14 +232,16 @@ def two_writing_forms(text: str) -> str:
 
 
 def normalize(text):
+    text = process_abbreviations(text)
     text = remove_multiple_space(text)
     text = space_between_alphabets_and_numbers(text)
     text = correct_spacing(text)
     text = remove_tanvin(text)
     text = remove_erab(text)
+    text = remove_endline_tab(text)
     text = remove_punctuations(text)
     # text = remove_half_space(text)
-    text = arabic_to_persian_marks(text)
+    text = arabic_to_persian_letters(text)
     text = english_numerics_to_persian(text)
     text = two_writing_forms(text)
     text = text.strip()
