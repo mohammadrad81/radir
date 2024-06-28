@@ -1,6 +1,6 @@
 from preprocess.normalization import normalize
 from preprocess.stemming import stem
-from preprocess.useless_words import is_stop_word
+from preprocess.useless_words import is_stop_word, is_useless_word
 
 def tokenize(content: str)->list[dict]:
     # print(f"content: \n{content}")
@@ -10,5 +10,5 @@ def tokenize(content: str)->list[dict]:
     terms = [stem(token) for token in normalized_tokens]
     token_term_position_dicts = [{"position": position, "token": token, "term": term}
                                  for position, (token, term) in enumerate(zip(tokens, terms)) 
-                                 if term != "" and not is_stop_word(token)]
+                                 if term != "" and not is_useless_word(token)]
     return token_term_position_dicts
