@@ -1,0 +1,109 @@
+most frequent words:
+
+1- word: 'به', frequency: 12180
+2- word: 'فارس', frequency: 12133
+3- word: 'پیام', frequency: 12119
+4- word: 'انتهای', frequency: 12071
+5- word: 'در', frequency: 12061
+6- word: 'و', frequency: 12006
+7- word: 'خبرگزاری', frequency: 11999
+8- word: 'از', frequency: 11445
+9- word: 'این', frequency: 11363
+10- word: 'با', frequency: 11144
+11- word: 'گزارش', frequency: 10420
+12- word: 'را', frequency: 10219
+13- word: 'که', frequency: 9675
+14- word: 'است', frequency: 9371
+15- word: 'کرد', frequency: 8394
+16- word: 'برای', frequency: 8343
+17- word: 'شد', frequency: 7896
+18- word: 'تا', frequency: 6361
+19- word: 'وی', frequency: 6215
+20- word: 'خبرنگار', frequency: 6176
+21- word: 'یک', frequency: 6168
+22- word: 'بر', frequency: 6129
+23- word: 'خود', frequency: 5929
+24- word: 'داشت', frequency: 5912
+25- word: 'بود', frequency: 5875
+26- word: 'گفت', frequency: 5731
+27- word: 'شده', frequency: 5731
+28- word: 'هم', frequency: 5601
+29- word: 'تیم', frequency: 5340
+30- word: 'ان', frequency: 5132
+31- word: 'قرار', frequency: 5097
+32- word: 'شود', frequency: 4919
+33- word: 'امروز', frequency: 4860
+34- word: 'دارد', frequency: 4831
+35- word: 'باید', frequency: 4823
+36- word: 'داد', frequency: 4677
+37- word: 'اما', frequency: 4458
+38- word: 'اظهار', frequency: 4434
+39- word: 'کشور', frequency: 4370
+40- word: 'اسلامی', frequency: 4360
+41- word: 'کند', frequency: 4322
+42- word: 'ادامه', frequency: 4290
+43- word: 'می‌شود', frequency: 4180
+44- word: 'حضور', frequency: 4174
+45- word: 'ما', frequency: 4095
+46- word: 'بازی', frequency: 4070
+47- word: 'دو', frequency: 4069
+48- word: 'اینکه', frequency: 3991
+49- word: 'سال', frequency: 3977
+50- word: 'عنوان', frequency: 3923
+
+
+
+to use: 
+
+[
+"به" ,
+"فارس" ,
+"پیام" ,
+"انتهای" ,
+"در" ,
+"و" ,
+"خبرگزاری" ,
+"از" ,
+"این" ,
+"با" ,
+"گزارش" ,
+"را" ,
+"که" ,
+"است" ,
+"کرد" ,
+"برای" ,
+"شد" ,
+"تا" ,
+"وی" ,
+"خبرنگار" ,
+"یک" ,
+"بر" ,
+"خود" ,
+"داشت" ,
+"بود" ,
+"گفت" ,
+"شده" ,
+"هم" ,
+"تیم" ,
+"ان" ,
+"قرار" ,
+"شود" ,
+"امروز" ,
+"دارد" ,
+"باید" ,
+"داد" ,
+"اما" ,
+"اظهار" ,
+"کشور" ,
+"اسلامی" ,
+"کند" ,
+"ادامه" ,
+"می‌شود" ,
+"حضور" ,
+"ما" ,
+"بازی" ,
+"دو" ,
+"اینکه" ,
+"سال" ,
+"عنوان" ,
+]
