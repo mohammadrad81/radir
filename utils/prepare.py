@@ -1,26 +1,17 @@
 import json
 import pickle
-from index.positional import PositionalIndex
+from index.positional_index import PositionalIndex
 from preprocess.stemming import stem
 from preprocess.normalization import normalize
-from preprocess.stop_words import remove_stop_words, is_stop_word
-from index.positional import PositionalIndex
+from preprocess.useless_words import remove_useless_words, is_stop_word
+from index.positional_index import PositionalIndex
 import datetime
+from preprocess.tokenization import tokenize
+
 def read_data(file_path: str):
     with open(file_path, "r") as file:
         data = json.load(file)
     return data
-
-def prepare_string(content: str)->list[dict]:
-    # print(f"content: \n{content}")
-    content = normalize(content)
-    tokens = content.split(" ")
-    normalized_tokens = [normalize(token) for token in tokens]
-    terms = [stem(token) for token in normalized_tokens]
-    token_term_position_dicts = [{"position": position, "token": token, "term": term}
-                                 for position, (token, term) in enumerate(zip(tokens, terms)) 
-                                 if term != "" and not is_stop_word(token)]
-    return token_term_position_dicts
 
 
 def create_index_from_data(data: dict) -> PositionalIndex:
@@ -33,7 +24,7 @@ def create_index_from_data(data: dict) -> PositionalIndex:
         # if i % 100 == 0:
             # print("inserting doc: ", i, " with id: ", doc_id)
         content = data[str(doc_id)]["content"]
-        prepared_content = prepare_string(content)
+        prepared_content = tokenize(content)
         for d in prepared_content:
             index.insert(d["term"], doc_id, d["position"])
     return index
