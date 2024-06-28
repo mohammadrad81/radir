@@ -7,10 +7,10 @@ import datetime
 
 if __name__ == "__main__":
 
-    # index, data = create_index("IR_data_news_12k.json", "positional_index.pkl")
-    with open("IR_data_news_12k.json", "r") as f:
-        data = json.load(f)
-    index = load_index(index_file_path="positional_index.pkl")
+    index, data = create_index("IR_data_news_12k.json", "positional_index.pkl")
+    # with open("IR_data_news_12k.json", "r") as f:
+        # data = json.load(f)
+    # index = load_index(index_file_path="positional_index.pkl")
     index.doc_vector_length()
     index.create_champions(100)
 
