@@ -12,6 +12,7 @@ if __name__ == "__main__":
     #     data = json.load(f)
     # index = load_index(index_file_path="positional_index.pkl")
     index.doc_vector_length()
+    index.create_champions(100)
 
     print("Index loaded.")
     while True:
@@ -19,8 +20,8 @@ if __name__ == "__main__":
         start = datetime.datetime.now()
         # print("start: ", start)
         prepared_query = tokenize(query)
-        doc_scores = index.retrieve_sorted_non_phrase_query(prepared_query)
-        show_results(doc_scores[:2], data)
+        doc_scores = index.retrieve_sorted_non_phrase_query(prepared_query, champions_only=True, count=5)
+        show_results(doc_scores, data, query)
         finish = datetime.datetime.now()
         # print("finish: ", finish)
         # print("run time: ", (finish - start))
