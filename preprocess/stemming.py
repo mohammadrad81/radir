@@ -2,21 +2,6 @@
 #I was not able to install hazm
 
 REMOVING_ENDS = [
-    # myself
-    "ام"
-    "اش",
-    "مان",
-    "تان",
-    "شان",
-    "یم",
-    "ید",
-    "ند",
-    "م",
-    "ت",
-    "ش",
-    "ها"
-    
-    #from HAZM
     "ات",
     "ان",
     "ترین",
@@ -32,12 +17,11 @@ REMOVING_ENDS = [
     "‌",
 ]
 
-
 def stem(word: str, removing_ends: list[str] = None) -> str:
     if removing_ends is None:
         removing_ends = REMOVING_ENDS
     for end in removing_ends:
-        if word.endswith(end) and len(word) > len(end):
+        if word.endswith(end) and len(word) > len(end): #improvement
             word = word[:-len(end)]
 
     if word.endswith("ۀ"):
