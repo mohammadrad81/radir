@@ -22,6 +22,11 @@ class PositionalIndex(AbstractIndex):
 
     def vocabulary(self) -> set[str]:
         return set(self.postings_list.keys())
+    
+    def importance_of_term_in_doc(self, term: str, doc_id: int) -> float:
+        term_posting_list = self.postings_list[term]
+        posting = term_posting_list.postings[doc_id]
+        return 1 + log2(posting.occurrence)
 
     def doc_vector_length(self) ->dict[int, float]:
         vector_length_squared = dict()
@@ -29,7 +34,7 @@ class PositionalIndex(AbstractIndex):
             posting_list = self.postings_list[term]
             for doc_id in posting_list.postings.keys():
                 posting = posting_list.postings[doc_id]
-                vector_length_squared[doc_id] = vector_length_squared.get(doc_id, 0) + (1 + log2(posting.occurrence)) ** 2
+                vector_length_squared[doc_id] = vector_length_squared.get(doc_id, 0) + self.importance_of_term_in_doc(term, doc_id) ** 2
         vector_length = {
             doc_id: vector_length_squared[doc_id]**0.5 
             for doc_id in vector_length_squared
@@ -126,8 +131,8 @@ class PositionalIndex(AbstractIndex):
             term_posting_list = self.postings_list[term]
             document_postings = term_posting_list.postings.get(doc_id, None)
             if document_postings:
-                document_term_frequency = 1 + log2(document_postings.occurrence)
-                normalized_tf = document_term_frequency / self.vector_length[doc_id]
+                document_term_importance = self.importance_of_term_in_doc(term, doc_id)
+                normalized_tf = document_term_importance / self.vector_length[doc_id]
                 similarity += query_vector[term] * normalized_tf
         return similarity
                 
