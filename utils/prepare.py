@@ -46,8 +46,11 @@ def create_index(source_file_path: str, dest_file_path: str) -> tuple[Positional
     store_index(index, dest_file_path)
     return index, data
 
-def show_results(doc_scores: list[tuple[int, float]], data: dict):
+def show_results(doc_scores: list[tuple[int, float]], data: dict, query: str):
+    print("*" * 50)
+    print(f"query: '{query}'")
     # print("keys: ", data["0"].keys())
+    print("documents:\n\n\n")
     for doc_id, score in doc_scores:
         str_doc_id = str(doc_id)
         print("doc_id: ", doc_id)
