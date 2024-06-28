@@ -16,8 +16,10 @@ class PositionalPosting:
 
 class PositionalPostingList:
     def __init__(self,
-                 postings: dict[int, PositionalPosting]):
+                 postings: dict[int, PositionalPosting],
+                 champions: set[int] = set()):
         self.postings = postings
+        self.champions = champions
         self._collection_frequency = None
 
     def insert(self, doc_id: int, position: int):
