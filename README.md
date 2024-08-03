@@ -1,2 +1,2 @@
 # radir
-an IR system project
+An IR system project for persian news.
